@@ -42,7 +42,7 @@ pip install requests beautifulsoup4 pandas numpy
 
 ### הכנה לפני הרצה
 
-יש להוריד את קבצי IMDb ידנית מהאתר:  
+יש להוריד את קבצי IMDb מהאתר:
 https://datasets.imdbws.com/
 
 ולשמור את הקבצים הבאים באותה תיקייה של המחברת:
