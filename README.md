@@ -2,7 +2,8 @@
 
 **Team Members:**  
 Zohar Kulp: 322435918  
-Roni Fahima: 212009260  
+Roni Fahima: 212009260 
+**Team Number:** 22
 
 **Movie Group:** Movies whose titles start with the letters TJ to TZ
 
@@ -15,7 +16,7 @@ Roni Fahima: 212009260
 
 | File | Description |
 |------|-------------|
-| `notebook_final1.ipynb` | Full Python code for data collection |
+| `notebook_final.ipynb` | Full Python code for data collection |
 | `dataset.csv` | Final dataset |
 | `report.pdf` | Report on the collection process |
 | `README.md` | This file |
@@ -40,7 +41,7 @@ Save the following files in the same folder as the notebook:
 
 ### Steps
 
-1. Open `notebook_final1.ipynb` in Jupyter
+1. Open `notebook_final.ipynb` in Jupyter
 2. Run all cells from top to bottom
 3. The Wikipedia cell runs on all movies - **takes several hours**
 4. When done, `dataset.csv` will be saved in the current folder
