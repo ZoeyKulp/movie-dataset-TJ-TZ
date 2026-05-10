@@ -11,23 +11,13 @@
 
 ---
 
-## תיאור הפרויקט
-
-פרויקט זה אוסף נתוני סרטים ממקורות שונים ובונה סט נתונים מקיף שישמש לבניית מודלי חיזוי בחלקים הבאים של המטלה.
-
-**מקורות הנתונים:**
-- IMDb Non-Commercial Datasets — נתוני סרטים, דירוגים ושחקנים
-- Wikipedia — שפה, מדינה, תקציב, הכנסות ותקציר באמצעות Web Scraping
-
----
-
 ## קבצים בפרויקט
 
 | קובץ | תיאור |
 |------|--------|
 | `notebook_final1.ipynb` | קוד Python המלא לאיסוף הנתונים |
 | `dataset.csv` | סט הנתונים הסופי |
-| `דוח סופי.docx` | דוח על תהליך האיסוף |
+| `report.pdf` | דוח על תהליך האיסוף |
 | `README.md` | קובץ זה |
 
 ---
@@ -42,14 +32,13 @@ pip install requests beautifulsoup4 pandas numpy
 
 ### הכנה לפני הרצה
 
-יש להוריד את קבצי IMDb מהאתר:
+יש להוריד את קבצי IMDb ידנית מהאתר:  
 https://datasets.imdbws.com/
 
 ולשמור את הקבצים הבאים באותה תיקייה של המחברת:
 - `title.basics.tsv.gz`
 - `title.ratings.tsv.gz`
 - `title.principals.tsv.gz`
-- `name.basics.tsv.gz`
 
 ### שלבי הרצה
 
@@ -66,14 +55,36 @@ https://datasets.imdbws.com/
 
 ## שיטת האיסוף
 
-1. **IMDb** — טעינת קבצי TSV עם `pd.read_csv` וסינון לפי:
-   - `titleType == 'movie'`
-   - `startYear <= 2024`
-   - `runtimeMinutes` בין 60 ל-300
-   - `primaryTitle` מתחיל ב-TJ עד TZ
+### 1. IMDb
+טעינת קבצי TSV עם `pd.read_csv` וסינון לפי:
+- `titleType == 'movie'` בלבד (ללא סדרות)
+- `startYear <= 2024`
+- `runtimeMinutes` בין 60 ל-300 דקות
+- `primaryTitle` מתחיל ב-TJ עד TZ
 
-2. **דירוגים** — מיזוג עם `title.ratings` (inner join — שמירת סרטים עם דירוג בלבד)
+עמודת `genres` הומרה לרשימה של strings באמצעות `str.split(',')` ישירות בשלב טעינת הנתונים.  
+עמודות `startYear` ו-`runtimeMinutes` הומרו ל-Integer.
 
-3. **שחקנים** — חילוץ עד 5 שחקנים מובילים מ-`title.principals` (category == 'actor')
+### 2. דירוגים
+מיזוג inner join עם `title.ratings` — שומרים רק סרטים שיש להם דירוג ב-IMDb.
 
-4. **Wikipedia** — Web Scraping עם `requests` ו-`BeautifulSoup` לחילוץ שפה, מדינה, תקציב, הכנסות ותקציר
+### 3. שחקנים
+סינון `category == 'actor'` מתוך `title.principals`, מיון לפי `ordering`, ולקיחת עד 5 שחקנים מובילים לכל סרט.  
+בחרנו את 5,000 הסרטים עם הכי הרבה קולות (`numVotes`) כדי להבטיח סרטים מוכרים ומתועדים היטב בויקיפדיה.
+
+### 4. Wikipedia — Web Scraping
+לכל סרט בוצע חיפוש בויקיפדיה וחולצו הנתונים הבאים מתוך ה-infobox:
+Language, Country, budget, BoxOffice
+
+**החלטות שנלקחו בתהליך ה-Scraping:**
+
+- **תווים מיוחדים** — שימוש ב-`urllib.parse.quote` בבניית ה-URL כדי להתמודד עם תווים מיוחדים בכותרות סרטים.
+
+- **דפי disambiguation** — כאשר ויקיפדיה מחזירה דף שורשים, הקוד מזהה את הקישור המתאים לפי התבנית `"שם הסרט (שנה film)"` ועובר אליו אוטומטית.
+
+- **זיהוי דף סרט** — הקוד בודק שהדף הוא אכן דף סרט על ידי חיפוש מילות מפתח ב-infobox כגון "directed by", "starring", "release date".
+
+- **תקציב והכנסות** — כאשר הערך מופיע כטווח, הקוד מחזיר את הממוצע כ-float במיליוני דולרים.
+
+### 5. OMDb API
+plot נלקח מ-OMDb API לפי מזהה ה-tconst. בחרנו בגישה זו מאחר שOMDb מספק תקציר נקי ומובנה. כאשר OMDb אינו מכיר את הסרט, הערך נשמר כ-NaN.
