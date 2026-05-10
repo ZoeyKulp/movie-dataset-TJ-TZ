@@ -1,57 +1,60 @@
-# פרויקט חלק 1: איסוף נתוני סרטים
+# Final Project-Part 1: Movie Data Collection
 
-**שמות חברי הצוות:**  
-זוהר קולפ: 322435918  
-רוני פחימה: 212009260  
+**Team Members:**  
+Zohar Kulp: 322435918  
+Roni Fahima: 212009260  
 
-**קבוצת סרטים:** סרטים שכותרתם מתחילה באותיות TJ עד TZ
+**Movie Group:** Movies whose titles start with the letters TJ to TZ
 
-**קישור לגיט:**  
-<!-- הכניסו כאן את הקישור ל-GitHub -->
-
----
-
-## קבצים בפרויקט
-
-| קובץ | תיאור |
-|------|--------|
-| `notebook_final1.ipynb` | קוד Python המלא לאיסוף הנתונים |
-| `dataset.csv` | סט הנתונים הסופי |
-| `report.pdf` | דוח על תהליך האיסוף |
-| `README.md` | קובץ זה |
+**GitHub Link:**  
+<!-- Insert your GitHub link here -->
 
 ---
 
-## הוראות הרצה
+## Project Files
 
-### דרישות מקדימות
+| File | Description |
+|------|-------------|
+| `notebook_final1.ipynb` | Full Python code for data collection |
+| `dataset.csv` | Final dataset |
+| `report.pdf` | Report on the collection process |
+| `README.md` | This file |
+
+---
+
+## How to Run
+
+### Prerequisites
 
 ```
 pip install requests beautifulsoup4 pandas numpy
 ```
 
-### הכנה לפני הרצה
+### Setup
 
-יש להוריד את קבצי IMDb מהאתר: https://datasets.imdbws.com/  
-ולשמור באותה תיקייה של המחברת:
+Download the IMDb files from: https://datasets.imdbws.com/  
+Save the following files in the same folder as the notebook:
 - `title.basics.tsv.gz`
 - `title.ratings.tsv.gz`
 - `title.principals.tsv.gz`
 
-### שלבי הרצה
+### Steps
 
-1. פתחו את `notebook_final1.ipynb` ב-Jupyter
-2. הריצו את התאים לפי הסדר מלמעלה למטה
-3. תא הויקיפדיה ירוץ על כל הסרטים
-4. בסיום יישמר קובץ `dataset.csv` בתיקייה הנוכחית
+1. Open `notebook_final1.ipynb` in Jupyter
+2. Run all cells from top to bottom
+3. The Wikipedia cell runs on all movies - **takes several hours**
+4. When done, `dataset.csv` will be saved in the current folder
 
 ---
 
-## תיאור קצר של שיטת האיסוף
+## Data Collection Overview
 
-הנתונים נאספו משלושה מקורות:
-- **IMDb** - סינון סרטים לפי titleType, שנים, משך זמן וכותרת. מיזוג עם ratings ו-principals לקבלת דירוגים ושחקנים.
-- **Wikipedia** - Web scraping לחילוץ Language, Country, budget ו-BoxOffice מה-infobox של כל סרט.
-- **OMDb API** - שליפת plot לפי מזהה tconst.
+Data was collected from three sources:
 
-נבחרו 5,000 הסרטים עם הכי הרבה קולות (numVotes) להבטחת סרטים מתועדים היטב.
+- **IMDb** - Filtered by titleType, year, runtime and title prefix (TJ–TZ). Merged with ratings and principals to get scores and actors.
+
+- **Wikipedia** - Web scraping to extract Language, Country, budget and BoxOffice from each film's infobox. The scraper handles special characters in titles, disambiguation pages, and verifies each page is actually a film page.
+
+- **OMDb API** - Plot fetched by tconst identifier. Chosen for its clean and structured summaries.
+
+The 5,000 films with the most votes (numVotes) were selected to ensure well-documented films.
