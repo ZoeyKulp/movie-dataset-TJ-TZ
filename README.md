@@ -7,9 +7,6 @@ Roni Fahima: 212009260
 
 **Movie Group:** Movies whose titles start with the letters TJ to TZ
 
-**GitHub Link:**  
-<!-- Insert your GitHub link here -->
-
 ---
 
 ## Project Files
